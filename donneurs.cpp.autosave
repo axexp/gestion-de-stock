@@ -1,0 +1,44 @@
+#include "donneurs.h"
+#include <QSqlQuery>
+#include <QtDebug>
+
+QString Aides::get_TYPE() {return TYPE;}
+QString Aides::get_DATE_ARRIVE() {return DATE_ARRIVE;}
+QString Aides::get_VALIDITE_DU_AIDE() {return VALIDITE_DU_AIDE;}
+int Aides::get_NUM_AIDE() {return NUM_AIDE;}
+int Aides::get_QUANTITE() {return QUANTITE;}
+
+void Aides::set_TYPE(QString n) {TYPE=n;}
+void Aides::set_DATE_ARRIVE(QString n) {DATE_ARRIVE=n;}
+void Aides::set_VALIDITE_DU_AIDE(QString n) {VALIDITE_DU_AIDE=n;}
+void Aides::set_NUM_AIDE(int n) {this->NUM_AIDE=n;}
+void Aides::set_QUANTITE(int n) {this->QUANTITE=n;}
+
+Aides::Aides()
+{
+    NUM_AIDE=0;
+    TYPE="";
+    DATE_ARRIVE="";
+    VALIDITE_DU_AIDE="";
+    QUANTITE=0;
+}
+Aides::Aides(QString TYPE ,QString DATE_ARRIVE ,QString VALIDITE_DU_AIDE )
+{
+    this->TYPE=TYPE;
+    this->DATE_ARRIVE=DATE_ARRIVE;
+    this->VALIDITE_DU_AIDE=VALIDITE_DU_AIDE;
+    this->QUANTITE=QUANTITE;
+}
+bool Aides::ajouter()
+{
+    QSqlQuery query1;
+    QString res1 = QString::number(QUANTITE);
+    QString res = QString::number(NUM_AIDE);
+    query1.prepare("INSERT INTO Aides (TYPE, DATE_ARRIVE, VALIDITE_DU_AIDE, QUANTITE )"
+                   "VALUES(:TYPE, :DATE_ARRIVE, :VALIDITE_DU_AIDE, :QUANTITE)");
+    query1.bindValue(":TYPE", TYPE);
+    query1.bindValue(":DATE_ARRIVE", DATE_ARRIVE);
+    query1.bindValue(":VALIDITE_DU_AIDE", VALIDITE_DU_AIDE);
+    query1.bindValue(":QUANTITE", res1);
+    return query1.exec();
+}
